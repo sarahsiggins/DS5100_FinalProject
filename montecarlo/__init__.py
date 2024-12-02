@@ -1,1 +1,1 @@
-print("Welcome")
+print("Monte Carlo Package Successfully Imported")
