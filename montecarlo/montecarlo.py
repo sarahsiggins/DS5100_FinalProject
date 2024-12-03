@@ -178,8 +178,8 @@ class Analyzer:
         ValueError
             if game is not an object
         '''        
-        if not isinstance(game, object):
-            raise ValueError("Game input must be an object") 
+        if not isinstance(game, Game):
+            raise ValueError("Game input must be a Game object") 
         self.game = game
 
     def jackpot(self):
@@ -216,7 +216,7 @@ class Analyzer:
         counts_df: dataframe
             has an index of the roll number, face values as columns, and count values in the cells
         '''
-        self.face_counts = self.game_.show_previous_result().apply(lambda x: x.value_counts(), axis = 1).fillna(int(0))
+        self.face_counts = self.game.show_previous_result().apply(lambda x: x.value_counts(), axis = 1).fillna(int(0))
         self.counts_df = self.face_counts
         self.counts_df.index.name = 'Roll'
         self.counts_df.columns.name = "Die Face"
@@ -238,7 +238,7 @@ class Analyzer:
         '''       
         self.combo_df = pd.DataFrame()
         self.combo_df = self.game.show_previous_result().apply(lambda x: pd.Series(sorted(x)), 1).value_counts().to_frame('Occurrence')
-        self.combo_df.index.names = ["Face Value #"+str(i) for i in range(1, len(self._game._list_of_die)+1)]
+        self.combo_df.index.names = ["Face Value #"+str(i) for i in range(1, len(self.game.die_list)+1)]
         return self.combo_df
     
     def perm_count(self):
